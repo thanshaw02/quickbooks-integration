@@ -1,7 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Button } from "@mui/material";
+import { QuickBooksAuthButton } from "./components/QuickBooksAuthButton";
 
-export default function Home() {
+// const OAuthClient = require("intuit-oauth");
+
+const Home = () => {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -19,6 +23,8 @@ export default function Home() {
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
+
+        <QuickBooksAuthButton />
 
         <div className={styles.ctas}>
           <a
@@ -92,4 +98,6 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+export default Home;
