@@ -53,3 +53,8 @@ Run app in production mode: `npm run start`
 ## Running in development mode
 
 Run app in development mode: `npm run dev`
+
+## References
+
+- QuickBooks javascript SDK: https://www.npmjs.com/package/node-quickbooks
+- (QuickBooks) Intuit OAuth library: https://www.npmjs.com/package/intuit-oauth
