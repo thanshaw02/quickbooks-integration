@@ -1,14 +1,24 @@
+# Custom Typescript type definitions and how to use them
+
+### How to use the type definitions for `intuit-oauth` in your project:
+
+- Copy the `intuit-oauth.d.ts` file from this project into the root diretory of your own Typescript project
+- Install the `intuit-oauth` library with this npm command: `npm i intuit-oauth`
+- The `intuit-oauth` library will now automatically be type and you will have intelisense in VSCode (and type checking)
+
+You can find my custom `intuit-oauth` types at the root level directory under `intuit-oauth.d.ts`
+
+### How to use the type definitions for `node-quickbooks` in your project:
+
+I stopped development on fully defining types for the `node-quickbooks` SDK for now as it is very large, if you want to define this SDK's types feel free to do so or partially type the SDK with just the methods you need to use
+
+You can find my custom `node-quickbooks` types at the root level directory under `node-quickbooks.d.ts`
+
 # Summary
 
 A small reposityory for testing out integrating QuickBooks into a project using Typescript. This includes custom Typescript types for the `intuit-oauth` library and will possibly include custom Typescript types for the `node-quickbooks` library (however the QuickBooks library is very large so this may be time consuming).
 
 The two large blue buttons on the home page are the QuickBooks integration testing buttons, you must authentication with QuickBooks (click the first button titled _Test QuickBooks (Intuit Auth)_ before you can fully test the QuickBooks SDK integration (clicking the second button titled _Test QuickBooks (Get Company Info)_)
-
-# Custom Typescript Types
-
-You can find my custom `intuit-oauth` types at the root level directory under `intuit-oauth.d.ts`
-
-You can find my custom `node-quickbooks` types at the root level directory under `node-quickbooks.d.ts`
 
 ## Setup
 
