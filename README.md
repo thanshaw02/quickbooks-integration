@@ -32,6 +32,8 @@ QB_REDIRECT_URI="http://localhost:3000/api/quickbooks/callback"
 QB_AUTH_SCOPES="com.intuit.quickbooks.accounting"
 ```
 
+[See the comments in this file on how to add new _Redirect URLs_ for your local testing and other environment testing](https://github.com/thanshaw02/quickbooks-integration/blob/main/src/app/api/quickbooks/callback/route.ts#L5-L17)
+
 ## Running in production mode
 
 Build app for production: `npm run build`
