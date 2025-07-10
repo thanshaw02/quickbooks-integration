@@ -14,6 +14,12 @@ I stopped development on fully defining types for the `node-quickbooks` SDK for 
 
 You can find my custom `node-quickbooks` types at the root level directory under `node-quickbooks.d.ts`
 
+# Usage in a real world application
+
+A single user will connect their company in the application to QuickBooks (clicking some button called `Integrate QuickBooks`). They will be prompted to authenticate (redirected back to QuickBooks website to login). Then QuickBooks will send you back to the application with a JSON object that has an `refresh_token` and an `access_token`.
+
+Store both the `refresh_token` and `access_token` in the database (encrypt the refresh token!). Then whenever you decide to refresh the `access_token` you will do so, QuickBooks will send you a new `refresh_token` and `access_token`, update the old `refres_token` in the database with the new encrypted refresh token and update the old `access_token` in the database with the new `access_token`.
+
 # Summary
 
 A small reposityory for testing out integrating QuickBooks into a project using Typescript. This includes custom Typescript types for the `intuit-oauth` library and will possibly include custom Typescript types for the `node-quickbooks` library (however the QuickBooks library is very large so this may be time consuming).
