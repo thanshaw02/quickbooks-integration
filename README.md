@@ -4,7 +4,7 @@
 
 - Copy the `intuit-oauth.d.ts` file from this project into the root diretory of your own Typescript project
 - Install the `intuit-oauth` library with this npm command: `npm i intuit-oauth`
-- The `intuit-oauth` library will now automatically be type and you will have intelisense in VSCode (and type checking)
+- The `intuit-oauth` library will now automatically be typed and you will have intelisense in VSCode (and type checking)
 
 You can find my custom `intuit-oauth` types at the root level directory under `intuit-oauth.d.ts`
 
