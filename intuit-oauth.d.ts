@@ -1,3 +1,8 @@
+// Custom Typescript type definitions for the "intuit-oauth" library
+// The moduel name *must* match the name of the installed library for Typescript to correctly pull this type definitions in
+// File name must follow this pattern: <NAME_OF_LIBRARY>.d.ts
+// These definitions were pulled from digging into the official documentation for this library: https://github.com/intuit/oauth-jsclient
+
 declare module "intuit-oauth" {
     /** Configuration options for OAuthClient */
     export interface OAuthClientConfig {
@@ -29,6 +34,9 @@ declare module "intuit-oauth" {
             OpenId: string;
             // add more if exposed
         };
+
+        // Token set after redirected back to app with a valid token JSON object
+        public token: Token
     
         /** Build the authorization URL for user consent */
         authorizeUri(params: {
@@ -54,7 +62,7 @@ declare module "intuit-oauth" {
         getToken(): Token | null;
     
         /** Set a token object manually on the client */
-        setToken?(token: Token): void;
+        setToken(token: Token): void;
     
         /** Check token validity */
         isAccessTokenValid(): boolean;
