@@ -18,7 +18,9 @@ You can find my custom `node-quickbooks` types at the root level directory under
 
 A single user will connect their company in the application to QuickBooks (clicking some button called `Integrate QuickBooks`). They will be prompted to authenticate (redirected back to QuickBooks website to login). Then QuickBooks will send you back to the application with a JSON object that has an `refresh_token` and an `access_token`.
 
-Store both the `refresh_token` and `access_token` in the database (encrypt the refresh token!). Then whenever you decide to refresh the `access_token` you will do so, QuickBooks will send you a new `refresh_token` and `access_token`, update the old `refres_token` in the database with the new encrypted refresh token and update the old `access_token` in the database with the new `access_token`.
+Store both the `refresh_token` and `access_token` in the database (encrypt the refresh token!). Then whenever you decide to refresh the `access_token` you will do so (this can be during each API call you make to the QuickBooks API or just periodically, QuickBooks will send you a new `access_token`, update the old `access_token` in the database with the new `access_token` in the database with the new `access_token`.
+
+_Note: No `refresh_token` is sent when refreshing the `access_token`. Currently the only way to get a new `refresh_token` when it expires is to re-authenticate, the user will need to be redirected back to QuickBooks after clicking some login button and then we will update the old `refresh_token` (along with the old `access_token`) after re-authenticating._
 
 # Summary
 
