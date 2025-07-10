@@ -24,13 +24,15 @@ export const GET = async (req: NextRequest) => {
         //       so I need to re-set the token from the file we generated everytime we make a QuickBooks call.
         const token = getToken();
         if (!token) {
-            throw new Error("No QuickBooks token found");
+            console.error("No QuickBooks token found");
+            return NextResponse.json({ error: "Unauthorized: QuickBooks token is not valid" }, { status: 401 });
         }
         oauthClient.setToken(token);
 
         const isTokenValid = oauthClient.isAccessTokenValid();
         if (!isTokenValid) {
-            throw new Error("Invalid Intuit access_token");
+            console.error("QuickBooks token is not valid");
+            return NextResponse.json({ error: "Unauthorized: QuickBooks token is not valid" }, { status: 401 });
         }
 
         const client = new QuickBooks(
