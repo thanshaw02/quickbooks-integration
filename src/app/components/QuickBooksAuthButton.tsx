@@ -1,15 +1,15 @@
 "use client"
 
-import { AuthenticateQuickBooks } from "@/api/QuickBooksApi";
+import { GetCompanyInfoQuickBooks } from "@/api/QuickBooksApi";
 import { Button } from "@mui/material";
 
-export const QuickBooksAuthButton = () => {
-    const handleQuickBooksPress = async () => {
+export const QuickBooksTestingButtons = () => {
+    const handleGetQuickBooksCompanyInfo = async () => {
         try {
-            const response = await AuthenticateQuickBooks();
-            console.log("QuickBooks authentication response: ", response);
+            const account = await GetCompanyInfoQuickBooks();
+            console.log("QuickBooks company info: ", account);
         } catch (error) {
-            console.error("Ereror authentication with QuickBooks: ", error);
+            console.error("Error getting QuickBooks company info: ", error);
         }
     };
 
@@ -17,10 +17,16 @@ export const QuickBooksAuthButton = () => {
         <>
             <Button
                 variant="contained"
+                // Redirecting user directly to API endpoint so the Next redirect routes user to QuickBooks for authentication
                 href="/api/quickbooks/auth"
-                // onClick={handleQuickBooksPress}
             >
-                Test QuickBooks (Intuit)
+                Test QuickBooks (Intuit Auth)
+            </Button>
+            <Button
+                variant="contained"
+                onClick={handleGetQuickBooksCompanyInfo}
+            >
+                Test QuickBooks (Get Company Info)
             </Button>
         </>
     )

@@ -3,9 +3,10 @@
 export const ClientFetchHelper = async(
     url: string,
     options: RequestInit = {},
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> => {
     try {
-        const response = await fetch(`/api${url}`, {
+        const response = await fetch(`/api/${url}`, {
             ...options,
             headers: {
                 ...options.headers,
@@ -24,6 +25,7 @@ export const ClientFetchHelper = async(
         }
 
         return await response.json();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         throw error;
     }
