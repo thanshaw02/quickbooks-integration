@@ -8,8 +8,6 @@ import { oauthClient } from "@/lib/quickbooksClient";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GET = async (req: NextRequest) => {
     try {
-        console.log(":: GET :: /quickbooks/auth");
-
         // combine space delimited environment variable of scopes, turn into array of strings
         const scopes = process.env.QB_AUTH_SCOPES?.split(/[ ,]+/) || [];
         if (!scopes || !scopes.length) {

@@ -17,8 +17,6 @@ import { saveToken } from "@/lib/quickbooksTokenStore";
 //      - In the case of this project my redirect URI is: http://localhost:3000/api/quickbooks/callback
 export const GET = async (req: NextRequest) => {
     try {
-        console.log(":: GET :: /quickbooks/callback");
-
         const url = req.url;
         const tokenResponse = await oauthClient.createToken(url);
 

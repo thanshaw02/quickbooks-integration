@@ -14,8 +14,8 @@ export const ClientFetchHelper = async(
         });
 
         if (response.status === 401) {
-            // This code will be seen if we throw an "Unauthorized" error in the "AuthorizedFetchJsonObject" calls in our next server routes
-            throw new Error("Unauthorized");
+            const errorCode = (await response.json()).code;
+            throw new Error(errorCode || "Unauthorized");
         }
 
         if (!response.ok) {

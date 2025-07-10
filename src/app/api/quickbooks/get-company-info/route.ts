@@ -2,8 +2,9 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { oauthClient } from "@/lib/quickbooksClient";
-import { getToken } from "@/lib/quickbooksTokenStore";
+import { getToken, saveToken } from "@/lib/quickbooksTokenStore";
 import { CompanyInfo } from "@/app/dto/CompanyInfo";
+import { ErrorCode } from "@/app/dto/ErrorCodes";
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const QuickBooks = require("node-quickbooks"); // ESLint will be mad due to this type of import
 
@@ -16,8 +17,6 @@ const QuickBooks = require("node-quickbooks"); // ESLint will be mad due to this
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GET = async (req: NextRequest) => {
     try {
-        console.log(":: GET :: /quickbooks/create-account");
-
         // Fetch the saved token from the ".quickbooks-token.json" file and set it in our OAuth client
         // Do not save the token in this way when actually integrating QuickBooks Online
         // Note: Even though I'm using a singleton pattern each endpoint does not share the same memory,
@@ -25,14 +24,30 @@ export const GET = async (req: NextRequest) => {
         const token = getToken();
         if (!token) {
             console.error("No QuickBooks token found");
-            return NextResponse.json({ error: "Unauthorized: QuickBooks token is not valid" }, { status: 401 });
+            return NextResponse.json({ error: "Unauthorized: QuickBooks token is not valid", code: ErrorCode.QB_NOAUTH }, { status: 401 });
         }
         oauthClient.setToken(token);
 
-        const isTokenValid = oauthClient.isAccessTokenValid();
-        if (!isTokenValid) {
-            console.error("QuickBooks token is not valid");
-            return NextResponse.json({ error: "Unauthorized: QuickBooks token is not valid" }, { status: 401 });
+        const isAccesstokenValid = oauthClient.isAccessTokenValid();
+        if (!isAccesstokenValid) {
+            // If the "access_token" is invalid (has expired) then we will attempt to refresh the "access_token"
+            // This will:
+            //      1. Get a fresh "access_token"
+            //      2. Reset the "access_token"'s expiration time for one hour from now
+            //      3. Reset the "refresh_token" expiration time from 100 days from now
+            // Note: If the QuickBooks integration is not used for over 100 days in a row ("access_token" is never refreshed) then you will need
+            //       to re-authenticate again using the "/api/quickbooks/auth" endpoint with "intuit-oauth".
+            try {
+                console.log("QuickBooks token is not valid, refreshing tokens");
+                const { token } = await oauthClient.refresh();
+                saveToken(token); // Save token in file (only for testing)
+                oauthClient.setToken(token); // Save token to singletone client (doesn't fulyl work in this case, each Next endpoint has its own memory)
+            } catch (error: any) {
+                // Likely error here is if we attmept to refresh the "access_token" when our "refresh_token" is invalid
+                // The user must re-authenticate in this case
+                console.error("QuickBooks token refreshed failed: ", error);
+                return NextResponse.json({ error: "QuickBooks refresh token expired", code: ErrorCode.QB_REAUTH_REQUIRED }, { status: 401 });
+            }
         }
 
         const client = new QuickBooks(
@@ -42,7 +57,7 @@ export const GET = async (req: NextRequest) => {
             false, // no token secret for oAuth 2.0
             oauthClient.token.realmId,
             true,  // use the sandbox
-            true,  // enable debugging
+            false,  // enable debugging
             null,  // set minorversion, or null for the latest version
             "2.0", // oAuth version
             oauthClient.token.refresh_token,

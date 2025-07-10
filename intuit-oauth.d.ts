@@ -47,7 +47,7 @@ declare module "intuit-oauth" {
         }): string;
     
         /** Exchange the callback URL (with code) for access/refresh tokens */
-        createToken(callbackUri: string): Promise<{ token: Token; getJson?: () => Token }>;
+        createToken(callbackUri: string): Promise<{ token: Token }>;
     
         /** Refresh the access token using stored refresh token */
         refresh(): Promise<{ token: Token }>;
@@ -56,7 +56,7 @@ declare module "intuit-oauth" {
         revoke(): Promise<{ status: string }>;
     
         /** Validate the ID token (OpenID Connect) */
-        validateIdToken?(): Promise<boolean>;
+        validateIdToken(): Promise<boolean>;
     
         /** Get currently loaded token (from client instance) */
         getToken(): Token | null;
@@ -66,10 +66,9 @@ declare module "intuit-oauth" {
     
         /** Check token validity */
         isAccessTokenValid(): boolean;
-        isRefreshTokenValid(): boolean;
     
         /** Optionally get user profile from OpenID */
-        getUserInfo?(): Promise<any>;
+        getUserInfo(): Promise<any>;
     }
 }
   
